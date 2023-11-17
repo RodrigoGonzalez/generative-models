@@ -130,8 +130,9 @@ for it in range(1000000):
 
     # Print and plot every now and then
     if it % 1000 == 0:
-        print('Iter-{}; D_loss: {}; E_loss: {}; G_loss: {}'
-              .format(it, D_loss.data.numpy(), E_loss.data.numpy(), G_loss.data.numpy()))
+        print(
+            f'Iter-{it}; D_loss: {D_loss.data.numpy()}; E_loss: {E_loss.data.numpy()}; G_loss: {G_loss.data.numpy()}'
+        )
 
         samples = G(z).data.numpy()[:16]
 
@@ -150,7 +151,6 @@ for it in range(1000000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'
-                    .format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

@@ -56,24 +56,18 @@ def generator(z, c):
     inputs = tf.concat(axis=1, values=[z, c])
     G_h1 = tf.nn.relu(tf.matmul(inputs, G_W1) + G_b1)
     G_log_prob = tf.matmul(G_h1, G_W2) + G_b2
-    G_prob = tf.nn.sigmoid(G_log_prob)
-
-    return G_prob
+    return tf.nn.sigmoid(G_log_prob)
 
 
 def discriminator(x):
     D_h1 = tf.nn.relu(tf.matmul(x, D_W1) + D_b1)
     D_logit = tf.matmul(D_h1, D_W2) + D_b2
-    D_prob = tf.nn.sigmoid(D_logit)
-
-    return D_prob
+    return tf.nn.sigmoid(D_logit)
 
 
 def Q(x):
     Q_h1 = tf.nn.relu(tf.matmul(x, Q_W1) + Q_b1)
-    Q_prob = tf.nn.softmax(tf.matmul(Q_h1, Q_W2) + Q_b2)
-
-    return Q_prob
+    return tf.nn.softmax(tf.matmul(Q_h1, Q_W2) + Q_b2)
 
 
 def plot(samples):
@@ -133,7 +127,7 @@ for it in range(1000000):
                            feed_dict={Z: Z_noise, c: c_noise})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'.format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)
 
@@ -150,7 +144,7 @@ for it in range(1000000):
     sess.run([Q_solver], feed_dict={Z: Z_noise, c: c_noise})
 
     if it % 1000 == 0:
-        print('Iter: {}'.format(it))
+        print(f'Iter: {it}')
         print('D loss: {:.4}'. format(D_loss_curr))
         print('G_loss: {:.4}'.format(G_loss_curr))
         print()

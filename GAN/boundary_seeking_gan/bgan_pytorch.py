@@ -99,6 +99,6 @@ for it in range(1000000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'.format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

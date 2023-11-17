@@ -37,8 +37,7 @@ bhx = Variable(torch.zeros(X_dim), requires_grad=True)
 
 def G(z):
     h = nn.relu(z @ Wzh + bzh.repeat(z.size(0), 1))
-    X = nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
-    return X
+    return nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
 
 
 """ ==================== DISCRIMINATOR ======================== """
@@ -52,8 +51,7 @@ bhy = Variable(torch.zeros(1), requires_grad=True)
 
 def D(X):
     h = nn.relu(X @ Wxh + bxh.repeat(X.size(0), 1))
-    y = nn.sigmoid(h @ Why + bhy.repeat(h.size(0), 1))
-    return y
+    return nn.sigmoid(h @ Why + bhy.repeat(h.size(0), 1))
 
 
 G_params = [Wzh, bzh, Whx, bhx]
@@ -112,7 +110,9 @@ for it in range(100000):
 
     # Print and plot every now and then
     if it % 1000 == 0:
-        print('Iter-{}; D_loss: {}; G_loss: {}'.format(it, D_loss.data.numpy(), G_loss.data.numpy()))
+        print(
+            f'Iter-{it}; D_loss: {D_loss.data.numpy()}; G_loss: {G_loss.data.numpy()}'
+        )
 
         samples = G(z).data.numpy()[:16]
 
@@ -131,6 +131,6 @@ for it in range(100000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'.format(str(c).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(c).zfill(3)}.png', bbox_inches='tight')
         c += 1
         plt.close(fig)

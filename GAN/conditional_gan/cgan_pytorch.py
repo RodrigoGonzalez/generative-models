@@ -38,8 +38,7 @@ bhx = Variable(torch.zeros(X_dim), requires_grad=True)
 def G(z, c):
     inputs = torch.cat([z, c], 1)
     h = nn.relu(inputs @ Wzh + bzh.repeat(inputs.size(0), 1))
-    X = nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
-    return X
+    return nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
 
 
 """ ==================== DISCRIMINATOR ======================== """
@@ -54,8 +53,7 @@ bhy = Variable(torch.zeros(1), requires_grad=True)
 def D(X, c):
     inputs = torch.cat([X, c], 1)
     h = nn.relu(inputs @ Wxh + bxh.repeat(inputs.size(0), 1))
-    y = nn.sigmoid(h @ Why + bhy.repeat(h.size(0), 1))
-    return y
+    return nn.sigmoid(h @ Why + bhy.repeat(h.size(0), 1))
 
 
 G_params = [Wzh, bzh, Whx, bhx]
@@ -115,7 +113,9 @@ for it in range(100000):
 
     # Print and plot every now and then
     if it % 1000 == 0:
-        print('Iter-{}; D_loss: {}; G_loss: {}'.format(it, D_loss.data.numpy(), G_loss.data.numpy()))
+        print(
+            f'Iter-{it}; D_loss: {D_loss.data.numpy()}; G_loss: {G_loss.data.numpy()}'
+        )
 
         c = np.zeros(shape=[mb_size, y_dim], dtype='float32')
         c[:, np.random.randint(0, 10)] = 1.
@@ -137,6 +137,6 @@ for it in range(100000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'.format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

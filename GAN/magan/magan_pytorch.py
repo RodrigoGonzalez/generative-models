@@ -80,7 +80,7 @@ s_z_before = torch.from_numpy(np.array([np.inf], dtype='float32'))
 for t in range(n_epoch):
     s_x, s_z = torch.zeros(1), torch.zeros(1)
 
-    for it in range(n_iter):
+    for _ in range(n_iter):
         # Sample data
         z = Variable(torch.randn(mb_size, z_dim))
         X, _ = mnist.train.next_batch(mb_size)
@@ -148,6 +148,6 @@ for t in range(n_epoch):
     if not os.path.exists('out/'):
         os.makedirs('out/')
 
-    plt.savefig('out/{}.png'.format(str(cnt).zfill(3)), bbox_inches='tight')
+    plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
     cnt += 1
     plt.close(fig)

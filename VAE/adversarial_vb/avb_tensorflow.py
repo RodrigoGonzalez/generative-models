@@ -60,8 +60,7 @@ theta_Q = [Q_W1, Q_W2, Q_b1, Q_b2]
 def Q(X, eps):
     inputs = tf.concat(axis=1, values=[X, eps])
     h = tf.nn.relu(tf.matmul(inputs, Q_W1) + Q_b1)
-    z = tf.matmul(h, Q_W2) + Q_b2
-    return z
+    return tf.matmul(h, Q_W2) + Q_b2
 
 
 """ P(X|z) """
@@ -96,6 +95,7 @@ def D(X, z):
 
 
 """ Training """
+
 z_sample = Q(X, eps)
 _, X_logits = P(z_sample)
 D_sample = D(X, z_sample)
@@ -145,6 +145,6 @@ for it in range(1000000):
         samples = sess.run(X_samples, feed_dict={z: np.random.randn(16, z_dim)})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'.format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

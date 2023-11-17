@@ -38,8 +38,7 @@ bhx = Variable(torch.zeros(X_dim), requires_grad=True)
 def G(z, c):
     inputs = torch.cat([z, c], 1)
     h = nn.relu(inputs @ Wzh + bzh.repeat(inputs.size(0), 1))
-    X = nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
-    return X
+    return nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
 
 
 """ ==================== DISCRIMINATOR ======================== """
@@ -53,8 +52,7 @@ bhy = Variable(torch.zeros(1), requires_grad=True)
 
 def D(X):
     h = nn.relu(X @ Wxh + bxh.repeat(X.size(0), 1))
-    y = nn.sigmoid(h @ Why + bhy.repeat(h.size(0), 1))
-    return y
+    return nn.sigmoid(h @ Why + bhy.repeat(h.size(0), 1))
 
 
 """ ====================== Q(c|X) ========================== """
@@ -68,8 +66,7 @@ bhc = Variable(torch.zeros(10), requires_grad=True)
 
 def Q(X):
     h = nn.relu(X @ Wqxh + bqxh.repeat(X.size(0), 1))
-    c = nn.softmax(h @ Whc + bhc.repeat(h.size(0), 1))
-    return c
+    return nn.softmax(h @ Whc + bhc.repeat(h.size(0), 1))
 
 
 G_params = [Wzh, bzh, Whx, bhx]
@@ -152,8 +149,9 @@ for it in range(100000):
         c = Variable(torch.from_numpy(c.astype('float32')))
         samples = G(z, c).data.numpy()[:16]
 
-        print('Iter-{}; D_loss: {}; G_loss: {}; Idx: {}'
-              .format(it, D_loss.data.numpy(), G_loss.data.numpy(), idx))
+        print(
+            f'Iter-{it}; D_loss: {D_loss.data.numpy()}; G_loss: {G_loss.data.numpy()}; Idx: {idx}'
+        )
 
         fig = plt.figure(figsize=(4, 4))
         gs = gridspec.GridSpec(4, 4)
@@ -170,7 +168,6 @@ for it in range(100000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'
-                    .format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

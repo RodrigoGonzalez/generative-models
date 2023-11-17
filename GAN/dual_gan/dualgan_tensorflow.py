@@ -186,7 +186,6 @@ for it in range(1000000):
               .format(it, D1_loss_curr + D2_loss_curr, G_loss_curr))
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'
-                    .format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

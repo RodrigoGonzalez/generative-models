@@ -127,7 +127,6 @@ for it in range(1000000):
         samples = sess.run(X_hat, feed_dict={z: sample_z(16, z_dim)})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'
-                    .format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

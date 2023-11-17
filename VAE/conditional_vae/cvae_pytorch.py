@@ -63,8 +63,7 @@ bhx = Variable(torch.zeros(X_dim), requires_grad=True)
 def P(z, c):
     inputs = torch.cat([z, c], 1)
     h = nn.relu(inputs @ Wzh + bzh.repeat(inputs.size(0), 1))
-    X = nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
-    return X
+    return nn.sigmoid(h @ Whx + bhx.repeat(h.size(0), 1))
 
 
 # =============================== TRAINING ====================================
@@ -124,6 +123,6 @@ for it in range(100000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'.format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

@@ -65,8 +65,7 @@ def sample_z(m, n):
 def G(z):
     G_h1 = tf.nn.relu(tf.matmul(z, G_W1) + G_b1)
     G_log_prob = tf.matmul(G_h1, G_W2) + G_b2
-    G_prob = tf.nn.sigmoid(G_log_prob)
-    return G_prob
+    return tf.nn.sigmoid(G_log_prob)
 
 
 def D(X):
@@ -110,16 +109,15 @@ for it in range(2*n_iter):
         print('Iter-{}; Pretrained D loss: {:.4}'.format(it, D_recon_loss_curr))
 
 
-i = 0
 # Initial margin, expected energy of real data
 margin = sess.run(D_recon_loss, feed_dict={X: mnist.train.images})
 s_z_before = np.inf
 
 # GAN training
-for t in range(n_epoch):
+for i, t in enumerate(range(n_epoch)):
     s_x, s_z = 0., 0.
 
-    for it in range(n_iter):
+    for _ in range(n_iter):
         X_mb, _ = mnist.train.next_batch(mb_size)
         z_mb = sample_z(mb_size, z_dim)
 
@@ -155,7 +153,5 @@ for t in range(n_epoch):
     samples = sess.run(G_sample, feed_dict={z: sample_z(16, z_dim)})
 
     fig = plot(samples)
-    plt.savefig('out/{}.png'
-                .format(str(i).zfill(3)), bbox_inches='tight')
-    i += 1
+    plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
     plt.close(fig)

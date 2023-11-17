@@ -114,13 +114,13 @@ for it in range(1000000):
     _, loss = sess.run([solver, vae_loss], feed_dict={X: X_mb})
 
     if it % 1000 == 0:
-        print('Iter: {}'.format(it))
+        print(f'Iter: {it}')
         print('Loss: {:.4}'. format(loss))
         print()
 
         samples = sess.run(X_samples, feed_dict={z: np.random.randn(16, z_dim)})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'.format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

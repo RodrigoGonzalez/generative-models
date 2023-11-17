@@ -53,8 +53,7 @@ theta_Q = [Q_W1, Q_W2, Q_b1, Q_b2]
 
 def Q(X):
     h = tf.nn.relu(tf.matmul(X, Q_W1) + Q_b1)
-    z = tf.matmul(h, Q_W2) + Q_b2
-    return z
+    return tf.matmul(h, Q_W2) + Q_b2
 
 
 """ P(X|z) """
@@ -87,11 +86,11 @@ theta_D = [D_W1, D_W2, D_b1, D_b2]
 def D(z):
     h = tf.nn.relu(tf.matmul(z, D_W1) + D_b1)
     logits = tf.matmul(h, D_W2) + D_b2
-    prob = tf.nn.sigmoid(logits)
-    return prob
+    return tf.nn.sigmoid(logits)
 
 
 """ Training """
+
 z_sample = Q(X)
 _, logits = P(z_sample)
 
@@ -135,6 +134,6 @@ for it in range(1000000):
         samples = sess.run(X_samples, feed_dict={z: np.random.randn(16, z_dim)})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'.format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

@@ -44,14 +44,12 @@ G2_ = torch.nn.Sequential(
 
 def G1(z):
     h = G_shared(z)
-    X = G1_(h)
-    return X
+    return G1_(h)
 
 
 def G2(z):
     h = G_shared(z)
-    X = G2_(h)
-    return X
+    return G2_(h)
 
 
 """ Shared Discriminator weights """
@@ -75,14 +73,12 @@ D2_ = torch.nn.Sequential(
 
 def D1(X):
     h = D1_(X)
-    y = D_shared(h)
-    return y
+    return D_shared(h)
 
 
 def D2(X):
     h = D2_(X)
-    y = D_shared(h)
-    return y
+    return D_shared(h)
 
 
 D_params = (list(D1_.parameters()) + list(D2_.parameters()) +
@@ -197,7 +193,6 @@ for it in range(100000):
         if not os.path.exists('out/'):
             os.makedirs('out/')
 
-        plt.savefig('out/{}.png'
-                    .format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

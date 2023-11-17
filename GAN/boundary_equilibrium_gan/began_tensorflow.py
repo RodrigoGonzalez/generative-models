@@ -66,8 +66,7 @@ def sample_z(m, n):
 def G(z):
     G_h1 = tf.nn.relu(tf.matmul(z, G_W1) + G_b1)
     G_log_prob = tf.matmul(G_h1, G_W2) + G_b2
-    G_prob = tf.nn.sigmoid(G_log_prob)
-    return G_prob
+    return tf.nn.sigmoid(G_log_prob)
 
 
 def D(X):
@@ -121,7 +120,6 @@ for it in range(1000000):
         samples = sess.run(G_sample, feed_dict={z: sample_z(16, z_dim)})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'
-                    .format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

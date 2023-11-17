@@ -176,7 +176,6 @@ for it in range(1000000):
         samples = np.vstack([input_A, samples_B, input_B, samples_A])
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'
-                    .format(str(cnt).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(cnt).zfill(3)}.png', bbox_inches='tight')
         cnt += 1
         plt.close(fig)

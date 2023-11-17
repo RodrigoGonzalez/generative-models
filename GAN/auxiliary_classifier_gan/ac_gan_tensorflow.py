@@ -54,8 +54,7 @@ def generator(z, c):
     inputs = tf.concat(axis=1, values=[z, c])
     G_h1 = tf.nn.relu(tf.matmul(inputs, G_W1) + G_b1)
     G_log_prob = tf.matmul(G_h1, G_W2) + G_b2
-    G_prob = tf.nn.sigmoid(G_log_prob)
-    return G_prob
+    return tf.nn.sigmoid(G_log_prob)
 
 
 D_W1 = tf.Variable(xavier_init([X_dim, h_dim]))
@@ -140,7 +139,6 @@ for it in range(1000000):
               .format(it, DC_loss_curr, GC_loss_curr, idx))
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'
-                    .format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)

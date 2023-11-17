@@ -62,14 +62,12 @@ def sample_z(m, n):
 def generator(z):
     G_h1 = tf.nn.relu(tf.matmul(z, G_W1) + G_b1)
     G_log_prob = tf.matmul(G_h1, G_W2) + G_b2
-    G_prob = tf.nn.sigmoid(G_log_prob)
-    return G_prob
+    return tf.nn.sigmoid(G_log_prob)
 
 
 def discriminator(x):
     D_h1 = tf.nn.relu(tf.matmul(x, D_W1) + D_b1)
-    out = tf.matmul(D_h1, D_W2) + D_b2
-    return out
+    return tf.matmul(D_h1, D_W2) + D_b2
 
 
 G_sample = generator(z)
@@ -130,7 +128,6 @@ for it in range(1000000):
         samples = sess.run(G_sample, feed_dict={z: sample_z(16, z_dim)})
 
         fig = plot(samples)
-        plt.savefig('out/{}.png'
-                    .format(str(i).zfill(3)), bbox_inches='tight')
+        plt.savefig(f'out/{str(i).zfill(3)}.png', bbox_inches='tight')
         i += 1
         plt.close(fig)
